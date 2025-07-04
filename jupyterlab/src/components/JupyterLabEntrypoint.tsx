@@ -33,7 +33,7 @@ import { DebouncedInputTextField } from "./Debounce"
 
 const jupyterlabAPIClient = new JupyterlabAPIClient()
 
-export const JupyterLabEntrypoint: FC = () => {
+export const JupyterLabEntrypoint: FC<{ filePath: string }> = ({filePath}) => {
   const [ready, setReady] = useState(false)
   const [pathName, setPathName] = useState("")
 
@@ -80,6 +80,7 @@ export const JupyterLabEntrypoint: FC = () => {
               showOptunaDashboard={() => {
                 setReady(true)
               }}
+              filePath={filePath}
             />
           </Box>
         </SnackbarProvider>
@@ -102,8 +103,9 @@ export const JupyterLabEntrypoint: FC = () => {
 }
 
 const JupyterLabStartWidget: FC<{
-  showOptunaDashboard: () => void
-}> = ({ showOptunaDashboard }) => {
+  showOptunaDashboard: () => void,
+  filePath: string
+}> = ({ showOptunaDashboard, filePath = "" }) => {
   const [loading, setLoading] = useState(true)
   const [isInitialized, setIsInitialized] = useState(false)
 
@@ -186,6 +188,7 @@ const JupyterLabStartWidget: FC<{
     <StartDashboardForm
       showOptunaDashboard={showOptunaDashboard}
       setLoading={setLoading}
+      defaultStorageURL={filePath}
     />
   )
 }
@@ -193,10 +196,11 @@ const JupyterLabStartWidget: FC<{
 const StartDashboardForm: FC<{
   showOptunaDashboard: () => void
   setLoading: Dispatch<SetStateAction<boolean>>
-}> = ({ showOptunaDashboard, setLoading }) => {
+  defaultStorageURL?: string
+}> = ({ showOptunaDashboard, setLoading, defaultStorageURL = "" }) => {
   const theme = useTheme()
   const isDarkMode = theme.palette.mode === "dark"
-  const [storageURL, setStorageURL] = useState("")
+  const [storageURL, setStorageURL] = useState(defaultStorageURL)
   const [artifactPath, setArtifactPath] = useState("")
   const [isValidURL, setIsValidURL] = useState(false)
 
@@ -253,7 +257,7 @@ const StartDashboardForm: FC<{
           textFieldProps={{
             autoFocus: true,
             fullWidth: true,
-            label: "Storage URL",
+            label: "Storage URL!",
             type: "text",
             sx: { margin: "8px 0" },
           }}

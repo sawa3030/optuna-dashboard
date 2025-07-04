@@ -8,6 +8,36 @@ import { LabIcon } from "@jupyterlab/ui-components"
 
 import { MainAreaWidget } from "@jupyterlab/apputils"
 import { OptunaDashboardWidget } from "./widget"
+// @jupyterlab/filebrowser-extension:open-with
+// import { IFileBrowserFactory } from "@jupyterlab/filebrowser"
+
+import {
+  ABCWidgetFactory,
+  DocumentRegistry,
+  DocumentWidget
+} from '@jupyterlab/docregistry';
+// import { Widget } from '@lumino/widgets';
+
+class OptunaDocWidgetFactory extends ABCWidgetFactory<DocumentWidget> {
+  constructor() {
+    super({
+      name: 'Optuna Dashboard Viewer',
+      fileTypes: ['optuna-sqlite'],
+      defaultFor: [], // 自動で開く拡張子にする場合は ['optuna-sqlite']
+      readOnly: true,
+      canStartKernel: false,
+      preferKernel: false
+    });
+  }
+
+  protected createNewWidget(
+    context: DocumentRegistry.Context
+  ): DocumentWidget {
+    const content = new OptunaDashboardWidget(context.path);
+    return new DocumentWidget({ content, context });
+  }
+}
+
 
 /**
  * The command IDs used by the server extension plugin.
@@ -24,6 +54,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
   id: "jupyterlab-optuna:plugin",
   description: "A JupyterLab extension for Optuna",
   autoStart: true,
+  // optional: [ILauncher, IFileBrowserFactory],
   optional: [ILauncher],
   requires: [ICommandPalette],
   activate: (
@@ -31,6 +62,16 @@ const plugin: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette,
     launcher: ILauncher | null
   ) => {
+    app.docRegistry.addFileType({
+      name: 'optuna-sqlite',
+      displayName: 'Optuna SQLite DB',
+      extensions: ['.sqlite3'],
+      mimeTypes: ['application/octet-stream']
+    });
+
+    const factory = new OptunaDocWidgetFactory();
+    app.docRegistry.addWidgetFactory(factory);
+
     console.log("JupyterLab extension jupyterlab-optuna is activated!")
     console.log("ICommandPalette:", palette)
 

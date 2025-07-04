@@ -244,7 +244,7 @@ export const StudyList: FC<{
                   }}
                   sx={{ marginRight: theme.spacing(2), minWidth: "120px" }}
                 >
-                  Reload
+                  Reloaded
                 </Button>
                 <Button
                   variant="outlined"

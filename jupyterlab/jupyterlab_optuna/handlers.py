@@ -41,7 +41,7 @@ class RouteHandler(APIHandler):
         global _dashboard_app, _is_initialized
 
         input_data = self.get_json_body()
-        storage_url = input_data.get("storage_url!!!!")
+        storage_url = input_data.get("storage_url")
         artifact_path = input_data.get("artifact_path")
 
         if storage_url is None:

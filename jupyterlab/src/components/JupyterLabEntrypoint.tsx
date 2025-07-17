@@ -105,7 +105,7 @@ export const JupyterLabEntrypoint: FC<{ filePath: string }> = ({filePath}) => {
 const JupyterLabStartWidget: FC<{
   showOptunaDashboard: () => void,
   filePath: string
-}> = ({ showOptunaDashboard, filePath = "" }) => {
+}> = ({ showOptunaDashboard, filePath}) => {
   const [loading, setLoading] = useState(true)
   const [isInitialized, setIsInitialized] = useState(false)
 
@@ -143,7 +143,7 @@ const JupyterLabStartWidget: FC<{
     )
   }
 
-  if (isInitialized) {
+  if (isInitialized && filePath !== "") {
     return (
       <Box
         sx={{
@@ -229,6 +229,12 @@ const StartDashboardForm: FC<{
         console.error(err)
       })
   }
+
+  useEffect(() => {
+    if (defaultStorageURL !== ""){
+      handleCreateNewDashboard()
+    }
+  }, [])
 
   return (
     <Box

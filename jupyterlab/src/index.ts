@@ -8,39 +8,12 @@ import { LabIcon } from "@jupyterlab/ui-components"
 
 import { MainAreaWidget } from "@jupyterlab/apputils"
 import { OptunaDashboardWidget } from "./widget"
-// @jupyterlab/filebrowser-extension:open-with
-// import { IFileBrowserFactory } from "@jupyterlab/filebrowser"
 
 import {
   ABCWidgetFactory,
   DocumentRegistry,
   DocumentWidget
 } from '@jupyterlab/docregistry';
-// import { Widget } from '@lumino/widgets';
-
-// class OptunaDocWidgetFactory extends ABCWidgetFactory<MainAreaWidget> {
-//   constructor() {
-//     super({
-//       name: 'Optuna Dashboard Viewer',
-//       fileTypes: ['optuna-sqlite'],
-//       defaultFor: [],
-//       readOnly: true,
-//       canStartKernel: false,
-//       preferKernel: false
-//     });
-//   }
-
-//   protected createNewWidget(
-//     context: DocumentRegistry.Context
-//   ): MainAreaWidget {
-//     // const content = new OptunaDashboardWidget(context.path);
-//     // return new DocumentWidget({ content, context });
-
-//     const content = new OptunaDashboardWidget(context.path)
-//     const widget = new MainAreaWidget<OptunaDashboardWidget>({ content })
-//     return widget;
-//   }
-// }
 
 class OptunaDocWidgetFactory extends ABCWidgetFactory<DocumentWidget> {
   constructor() {

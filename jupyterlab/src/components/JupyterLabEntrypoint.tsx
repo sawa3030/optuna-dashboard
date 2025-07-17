@@ -263,7 +263,7 @@ const StartDashboardForm: FC<{
           textFieldProps={{
             autoFocus: true,
             fullWidth: true,
-            label: "Storage URL!",
+            label: "Storage URL",
             type: "text",
             sx: { margin: "8px 0" },
           }}
